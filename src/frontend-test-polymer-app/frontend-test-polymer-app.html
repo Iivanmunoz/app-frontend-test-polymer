@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/front-end/front-end.html">
+<link rel="import" href="../../bower_components/front-lista/front-lista.html">
 
 <dom-module id="frontend-test-polymer-app">
   <template>
@@ -6,8 +8,13 @@
       :host {
         display: block;
       }
+      front-end{
+        text-align: center;
+      }
     </style>
-    <h2>Hello [[prop1]]!</h2>
+    <front-end ></front-end>
+
+      <front-lista id="list" actividades="[[actividades]]" textobool="[[textobool]]"></front-lista>
   </template>
 
   <script>
@@ -22,9 +29,63 @@
           prop1: {
             type: String,
             value: 'frontend-test-polymer-app'
+          },
+          mensaje:{
+            type:String,
+            value: '',
+            notify:true
+          },
+          listado: {
+            type: Array,
+            value: []
           }
         };
       }
+      ready() {
+        super.ready();
+        
+        if(localStorage.getItem("listadoStorage") && localStorage.getItem("listadoStorage") != '[]') {
+            this.listado = (JSON.parse(localStorage.getItem("listadoStorage")));
+            this.textobool = true;
+            this.updateToDoList();
+            console.log(localStorage);
+        }
+        this.addEventListener('AddToDo', (e) => { this.addToDoInList(e.detail.content); });
+        this.addEventListener('DeleteToDo', (e) => { this.deleteToDoInList(e.detail.type, e.detail.id); });
+      }
+      addToDoInList(content) {
+        this.listado.push({ content: content, id: this.listado.length });
+        this.textobool = true;
+        this.updateToDoList();
+      }
+      deleteToDoInList(type, idToDo) {
+        if(type)  {
+          this.listado = [];
+          this.textobool = false;  
+        } else {
+          let idTemp = null;
+
+          this.listado.forEach((aToDo, id) => { 
+            if(aToDo['id'] == idToDo) idTemp = id; 
+          });
+
+          this.listado.splice(idTemp, 1);
+
+          if(this.listado.length < 1){
+            this.textobool = false;  
+            this.listado = [];
+          }
+        }
+          
+        this.updateToDoList();
+      }
+
+      updateToDoList() {
+        this.list = [];
+        this.list = this.todoList;
+        localStorage.setItem("ToDoListStorage", JSON.stringify(this.todoList));
+      }
+        
     }
 
     window.customElements.define(FrontendTestPolymerApp.is, FrontendTestPolymerApp);
