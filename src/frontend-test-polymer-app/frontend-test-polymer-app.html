@@ -1,20 +1,42 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/front-end/front-end.html">
 <link rel="import" href="../../bower_components/front-lista/front-lista.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
 
 <dom-module id="frontend-test-polymer-app">
   <template>
     <style>
       :host {
         display: block;
-      }
-      front-end{
         text-align: center;
       }
+      
+      paper-button{
+        box-sizing: border-box;
+        height: 100%;
+      }
+      paper-input{
+          margin-right: 1px;
+          display: inline-block;box-sizing: border-box;
+          width: 450px;
+          height: 100%;
+      }
+      paper-card{
+        height: 68px;
+        width: 561px;
+      }
+      img{
+        display: block;
+        margin: auto;
+        
+      }
     </style>
-    <front-end ></front-end>
-
-      <front-lista id="list" actividades="[[actividades]]" textobool="[[textobool]]"></front-lista>
+    <div class="row">
+      <paper-input label="text input" id="inputvalor" "></paper-input>
+      <paper-button on-click="llenarlista">Agregar</paper-button>
+      <p>{{valor1}}</p>
+    </div>
+    <front-lista></front-lista>
   </template>
 
   <script>
@@ -26,7 +48,7 @@
       static get is() { return 'frontend-test-polymer-app'; }
       static get properties() {
         return {
-          prop1: {
+          prop1:{
             type: String,
             value: 'frontend-test-polymer-app'
           },
@@ -35,7 +57,7 @@
             value: '',
             notify:true
           },
-          listado: {
+          listado:{
             type: Array,
             value: []
           }
@@ -43,47 +65,16 @@
       }
       ready() {
         super.ready();
-        
-        if(localStorage.getItem("listadoStorage") && localStorage.getItem("listadoStorage") != '[]') {
-            this.listado = (JSON.parse(localStorage.getItem("listadoStorage")));
-            this.textobool = true;
-            this.updateToDoList();
-            console.log(localStorage);
-        }
-        this.addEventListener('AddToDo', (e) => { this.addToDoInList(e.detail.content); });
-        this.addEventListener('DeleteToDo', (e) => { this.deleteToDoInList(e.detail.type, e.detail.id); });
       }
-      addToDoInList(content) {
+      agregaactividad(content) {
         this.listado.push({ content: content, id: this.listado.length });
-        this.textobool = true;
-        this.updateToDoList();
+        
+        this.cargalista();
       }
-      deleteToDoInList(type, idToDo) {
-        if(type)  {
-          this.listado = [];
-          this.textobool = false;  
-        } else {
-          let idTemp = null;
-
-          this.listado.forEach((aToDo, id) => { 
-            if(aToDo['id'] == idToDo) idTemp = id; 
-          });
-
-          this.listado.splice(idTemp, 1);
-
-          if(this.listado.length < 1){
-            this.textobool = false;  
-            this.listado = [];
-          }
-        }
-          
-        this.updateToDoList();
-      }
-
-      updateToDoList() {
+      cargalista() {
         this.list = [];
-        this.list = this.todoList;
-        localStorage.setItem("ToDoListStorage", JSON.stringify(this.todoList));
+        this.list = this.listado;
+        console.log(this.list);
       }
         
     }
