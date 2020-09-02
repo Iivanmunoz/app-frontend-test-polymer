@@ -1,42 +1,27 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../../bower_components/front-end/front-end.html">
 <link rel="import" href="../../bower_components/front-lista/front-lista.html">
-<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/front-end/front-end.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <dom-module id="frontend-test-polymer-app">
   <template>
     <style>
       :host {
         display: block;
-        text-align: center;
+       
       }
-      
-      paper-button{
-        box-sizing: border-box;
-        height: 100%;
-      }
-      paper-input{
-          margin-right: 1px;
-          display: inline-block;box-sizing: border-box;
-          width: 450px;
-          height: 100%;
-      }
-      paper-card{
-        height: 68px;
-        width: 561px;
-      }
-      img{
-        display: block;
-        margin: auto;
-        
-      }
+ 
     </style>
-    <div class="row">
-      <paper-input label="text input" id="inputvalor" "></paper-input>
-      <paper-button on-click="llenarlista">Agregar</paper-button>
-      <p>{{valor1}}</p>
-    </div>
-    <front-lista></front-lista>
+
+    <app-localstorage-document key="front.lista.prueba" data="{{actividades}}"></app-localstorage-document>
+
+    <front-end actividades="{{listado}}"></front-end>
+
+    <front-lista actividades="{{listado}}"></front-lista>
+    
   </template>
 
   <script>
@@ -52,30 +37,37 @@
             type: String,
             value: 'frontend-test-polymer-app'
           },
-          mensaje:{
-            type:String,
-            value: '',
-            notify:true
-          },
           listado:{
             type: Array,
-            value: []
+            value: function() {
+                return [];
+            }
+    
+          },
+          encendido: {
+            type: Boolean,
+            value: false,
+            notify: true
           }
+                    
         };
       }
-      ready() {
-        super.ready();
+      static get observers() {
+          return [
+              'listadoChanged(listado.*)'
+          ]
       }
-      agregaactividad(content) {
-        this.listado.push({ content: content, id: this.listado.length });
-        
-        this.cargalista();
-      }
-      cargalista() {
-        this.list = [];
-        this.list = this.listado;
-        console.log(this.list);
-      }
+    
+      listadoChanged() {
+                console.log(this.listado);
+            }
+            algo2(e) {
+                if (e.detail.value) {
+                    this.encendido = true;
+                    console.log(this.encendido);
+                }
+            }
+
         
     }
 

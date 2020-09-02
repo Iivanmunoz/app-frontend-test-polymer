@@ -5,7 +5,11 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "front-end": "https://github.com/Iivanmunoz/componente-front-end.git",
-    "front-lista": "https://github.com/Iivanmunoz/componente-front-lista.git"
+    "front-lista": "https://github.com/Iivanmunoz/componente-front-lista.git",
+    "paper-input": "https://github.com/PolymerElements/paper-input.git#2.2.3",
+    "paper-button": "https://github.com/PolymerElements/paper-button.git#2.1.3",
+    "paper-card": "https://github.com/PolymerElements/paper-card.git#2.1.0",
+    "app-storage": "https://github.com/PolymerElements/app-storage.git#2.1.2"
   },
   "devDependencies": {
     "web-component-tester": "Polymer/web-component-tester#^6.0.0",
