@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/front-lista/front-lista.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/front-end/front-end.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
+<dom-module id="frontend-test-polymer-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+       
+      }
+ 
+    </style>
+
+    <app-localstorage-document key="front.lista.prueba" data="{{actividades}}"></app-localstorage-document>
+
+    <front-end actividades="{{listado}}"></front-end>
+
+    <front-lista actividades="{{listado}}"></front-lista>
+    
+  </template>
+
+  <script>/**
+ * @customElement
+ * @polymer
+ */
+class FrontendTestPolymerApp extends Polymer.Element {
+  static get is() {
+    return 'frontend-test-polymer-app';
+  }
+
+  static get properties() {
+    return {
+      prop1: {
+        type: String,
+        value: 'frontend-test-polymer-app'
+      },
+      listado: {
+        type: Array,
+        value: function () {
+          return [];
+        }
+      },
+      encendido: {
+        type: Boolean,
+        value: false,
+        notify: true
+      }
+    };
+  }
+
+  static get observers() {
+    return ['listadoChanged(listado.*)'];
+  }
+
+  listadoChanged() {
+    console.log(this.listado);
+  }
+
+  algo2(e) {
+    if (e.detail.value) {
+      this.encendido = true;
+      console.log(this.encendido);
+    }
+  }
+
+}
+
+window.customElements.define(FrontendTestPolymerApp.is, FrontendTestPolymerApp);</script>
+</dom-module>

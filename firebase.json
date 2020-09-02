@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "build/frontend-test-polymer",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
